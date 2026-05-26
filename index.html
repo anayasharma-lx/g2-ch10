@@ -4,209 +4,161 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chapter 10 · More About Multiplication</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--jungle:#1B4332;--leaf:#2D6A4F;--lime:#52B788;--bright:#74C69D;--orange:#FF7D00;--orange2:#E06800;--sun:#FFB703;--cream:#F5FFF5;--bark:#6B3F1A}
-html,body{width:100%;min-height:100vh}
-body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#1B4332 0%,#2D6A4F 40%,#52B788 100%);min-height:100vh;padding:0 0 32px;display:flex;flex-direction:column;align-items:center;}
-
-.jungle-header{width:100%;background:linear-gradient(135deg,#0D2818,#1B4332);padding:14px 20px 20px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;border-bottom:3px solid var(--lime);}
-.leaves{position:absolute;bottom:0;left:0;right:0;height:16px;background:repeating-linear-gradient(90deg,var(--leaf) 0,var(--leaf) 18px,var(--lime) 18px,var(--lime) 36px)}
-.jh-title{font-family:'Fredoka One',cursive;font-size:26px;color:var(--sun);z-index:1;text-shadow:0 2px 0 rgba(0,0,0,.3)}
-.jh-chip{background:var(--orange);color:#fff;font-size:12px;font-weight:900;padding:5px 14px;border-radius:20px;z-index:1;border:2px solid rgba(255,255,255,.2)}
-
-.page{width:100%;max-width:700px;padding:16px;display:flex;flex-direction:column;gap:20px}
-.jcard{background:rgba(245,255,245,.97);border-radius:24px;padding:20px;box-shadow:0 6px 0 rgba(0,0,0,.15),0 2px 20px rgba(0,0,0,.12);border:3px solid rgba(255,255,255,.9);position:relative;overflow:hidden}
-.jcard::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;border-radius:24px 24px 0 0}
-.jcard.lime::before{background:var(--lime)}.jcard.orange::before{background:var(--orange)}.jcard.sun::before{background:var(--sun)}
-.jc-title{font-family:'Fredoka One',cursive;font-size:20px;color:var(--jungle);margin-bottom:4px}
-.hint{font-size:13px;font-weight:700;color:var(--leaf);margin-bottom:14px;line-height:1.5}
-
-/* skip count */
-.skip-ctrl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.sc-lbl{font-family:'Fredoka One',cursive;font-size:15px;color:var(--jungle)}
-.sbtn{width:36px;height:36px;border-radius:50%;border:none;background:var(--orange);color:#fff;font-size:18px;font-weight:900;cursor:pointer;transition:transform .1s;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 rgba(0,0,0,.15)}
-.sbtn:active{transform:scale(.88)}
-.sval{font-family:'Fredoka One',cursive;font-size:28px;color:var(--jungle);min-width:32px;text-align:center}
-.reset-sm{background:#fff;border:2.5px solid var(--lime);color:var(--leaf);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;padding:8px 16px;border-radius:10px;cursor:pointer}
-
-.skip-prompt{font-family:'Fredoka One',cursive;font-size:15px;color:var(--jungle);margin-bottom:10px;min-height:22px}
-.track{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
-.bub{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;border:2.5px solid var(--lime);color:var(--jungle);cursor:pointer;transition:all .2s;background:var(--cream);user-select:none;line-height:1}
-.bub:hover:not(.done):not(.lit){border-color:var(--orange);background:#FFF0E0}
-.bub.lit{background:var(--orange);color:#fff;border-color:var(--orange2);transform:scale(1.1);box-shadow:0 3px 10px rgba(255,125,0,.3)}
-.bub.done{background:var(--lime);color:#fff;border-color:var(--leaf);cursor:default}
-.bub.next{border-color:var(--orange);border-style:dashed;animation:pulse .9s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.bub.wrong-f{background:#FFE0E0;border-color:#FF6B6B}
-.skip-disp{text-align:center;margin-top:4px}
-.skip-chain{font-size:15px;font-weight:800;color:var(--jungle);word-break:break-word;min-height:22px;margin-bottom:4px}
-.skip-big{font-family:'Fredoka One',cursive;font-size:60px;color:var(--orange);line-height:1;text-shadow:0 3px 0 rgba(0,0,0,.1)}
-.skip-fact{font-family:'Fredoka One',cursive;font-size:16px;color:var(--leaf);min-height:22px;margin-top:4px}
-
-/* word problems */
-.wp-box{background:linear-gradient(135deg,#E8F5E9,#F1FFF1);border-radius:16px;padding:14px 16px;border:2.5px solid var(--lime);margin-bottom:14px}
-.wp-text{font-size:16px;font-weight:700;color:var(--jungle);line-height:1.7;margin-bottom:8px}
-.wp-scene{font-size:28px;min-height:34px;margin-bottom:8px;line-height:1.4}
-.type-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}
-.eq-lbl{font-family:'Fredoka One',cursive;font-size:18px;color:var(--jungle)}
-.type-inp{font-family:'Fredoka One',cursive;font-size:28px;width:84px;height:54px;border-radius:12px;border:3px solid var(--lime);text-align:center;color:var(--jungle);outline:none;background:var(--cream);-moz-appearance:textfield}
-.type-inp::-webkit-outer-spin-button,.type-inp::-webkit-inner-spin-button{-webkit-appearance:none}
-.type-inp:focus{border-color:var(--orange)}
-.check-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border:none;border-radius:12px;padding:12px 22px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12);transition:all .18s}
-.check-btn:hover{transform:scale(1.06)}
-.wp-fb{font-family:'Fredoka One',cursive;font-size:16px;min-height:22px;margin-top:8px}
-.next-btn{margin-top:12px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border:none;border-radius:16px;padding:12px 28px;font-family:'Fredoka One',cursive;font-size:17px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12);transition:all .18s}
-.next-btn:hover{transform:scale(1.06)}
-
-/* times table */
-.tt-grid{display:grid;grid-template-columns:repeat(11,1fr);gap:2px;margin-top:8px;overflow-x:auto}
-.ttc{height:30px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;border-radius:5px;cursor:pointer;transition:all .15s;user-select:none;min-width:24px}
-.ttc.hdr{background:var(--orange);color:#fff;font-size:11px;cursor:default}
-.ttc.body{background:var(--cream);color:var(--jungle);border:1px solid #C8E6C9}
-.ttc.body:hover{background:#C8E6C9}
-.ttc.hl{background:var(--lime);color:#fff;border-color:var(--leaf)}
-.ttc.sel{background:var(--jungle);color:#fff;transform:scale(1.12);z-index:1}
-.tt-fact{text-align:center;margin-top:10px;font-family:'Fredoka One',cursive;font-size:26px;color:var(--jungle);min-height:32px}
+:root{--ac:#D97706;--bg:#FDF6EE;--card:#fff;--ink:#1A2E2E;--ink2:#5F7A7A;--ok:#16A34A;--no:#DC2626;--r:20px}
+html,body{width:100%;min-height:100vh;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+.hdr{width:100%;position:sticky;top:0;z-index:100;background:var(--ac);box-shadow:0 4px 24px rgba(0,0,0,.15)}
+.hdr-in{max-width:640px;margin:0 auto;padding:14px 20px 0;text-align:center}
+.ch-n{font-family:'Grandstander',cursive;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.ch-t{font-family:'Grandstander',cursive;font-size:clamp(18px,5vw,26px);font-weight:900;color:#fff;line-height:1.2;margin:2px 0 10px;text-shadow:0 2px 8px rgba(0,0,0,.1)}
+.tabs{display:flex;gap:4px;max-width:280px;margin:0 auto;background:rgba(0,0,0,.1);border-radius:14px 14px 0 0;padding:4px 4px 0}
+.tab{flex:1;padding:9px 0;text-align:center;font-family:'Grandstander',cursive;font-size:14px;font-weight:800;cursor:pointer;border-radius:12px 12px 0 0;color:rgba(255,255,255,.6);transition:.2s;user-select:none}
+.tab.on{background:var(--bg);color:var(--ac)}
+.tab:not(.on):hover{color:#fff;background:rgba(255,255,255,.08)}
+.page{max-width:620px;margin:0 auto;padding:14px 14px 60px}
+.pnl{display:none;flex-direction:column;gap:16px}.pnl.on{display:flex}
+.card{background:var(--card);border-radius:var(--r);padding:20px 18px;box-shadow:0 3px 16px rgba(0,0,0,.06);position:relative;overflow:hidden}
+.cb{position:absolute;top:0;left:0;bottom:0;width:5px;border-radius:var(--r) 0 0 var(--r);background:var(--ac)}
+.ct{font-family:'Grandstander',cursive;font-size:15px;font-weight:800;padding-left:14px;margin-bottom:3px;line-height:1.3}
+.cs{font-size:12px;color:var(--ink2);padding-left:14px;margin-bottom:14px;line-height:1.6}
+/* stepper */
+.cr{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.cg{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.03);border-radius:12px;padding:8px 12px;border:1.5px solid rgba(0,0,0,.06)}
+.cl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;min-width:48px}
+.sb{width:34px;height:34px;border-radius:50%;border:none;font-size:18px;font-weight:900;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.12s;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.sb:active{transform:scale(.88)}
+.sv{font-family:'Grandstander',cursive;font-size:28px;font-weight:900;min-width:28px;text-align:center}
+/* blocks */
+.bx{background:rgba(0,0,0,.02);border-radius:14px;border:1.5px solid rgba(0,0,0,.06);padding:12px;min-height:60px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-bottom:14px}
+.flat{display:grid;grid-template-columns:repeat(10,8px);gap:1px}.flat-c{width:8px;height:8px;border-radius:1px;opacity:.8}
+.rod{display:flex;flex-direction:column;gap:1px}.rod-c{width:10px;height:10px;border-radius:1px;opacity:.8}
+.units{display:flex;flex-wrap:wrap;gap:2px;max-width:58px;align-self:flex-end}.unit-c{width:10px;height:10px;border-radius:2px;opacity:.8}
+.sep{width:1px;background:#D1D5DB;align-self:stretch;margin:0 3px}
+/* options */
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{font-family:'Grandstander',cursive;font-size:22px;font-weight:800;min-width:72px;height:54px;border-radius:16px;border:2.5px solid rgba(0,0,0,.08);background:#fff;cursor:pointer;color:var(--ink);display:flex;align-items:center;justify-content:center;transition:.15s;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.opt:hover{border-color:var(--ac);transform:translateY(-2px)}
+.opt.ok{background:#DCFCE7;border-color:var(--ok);color:#15803D;animation:pop .3s}
+.opt.no{background:#FEE2E2;border-color:var(--no);color:var(--no);animation:shk .35s}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.fb{font-family:'Grandstander',cursive;font-size:14px;font-weight:700;min-height:20px;margin-top:10px;text-align:center}
+.nbtn{font-family:'Grandstander',cursive;font-size:14px;font-weight:800;padding:10px 24px;border-radius:14px;border:none;background:var(--ac);color:#fff;cursor:pointer;margin-top:12px;box-shadow:0 3px 10px rgba(0,0,0,.12);transition:.15s}
+.nbtn:hover{transform:translateY(-1px);opacity:.9}
+.btn{font-family:'Grandstander',cursive;font-size:14px;font-weight:800;padding:10px 20px;border-radius:14px;border:none;cursor:pointer;transition:.15s;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--ac);color:#fff}
+.btn-g{background:#fff;color:var(--ink2);border:1.5px solid rgba(0,0,0,.1)}
+.btn-g:hover{border-color:var(--ac);color:var(--ac)}
+.chal{background:rgba(0,0,0,.02);border-radius:16px;padding:14px;border:1.5px dashed rgba(0,0,0,.1);margin-top:10px}
+.chal-q{font-family:'Grandstander',cursive;font-size:14px;font-weight:800;margin-bottom:10px}
+.chal-q b{color:var(--ac);font-size:22px}
+canvas{display:block;border-radius:10px}
+/* drag & tap shared */
+.tappable{cursor:pointer;user-select:none;transition:transform .15s}
+.tappable:hover{transform:scale(1.08)}
+.tappable:active{transform:scale(.92)}
+/* misc */
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-block;font-family:'Grandstander',cursive;font-size:14px;font-weight:800;padding:6px 18px;border-radius:30px}
+.big{font-family:'Grandstander',cursive;font-weight:900;line-height:1;text-align:center}
 </style>
 </head>
 <body>
-<div class="jungle-header">
-  <div class="leaves"></div>
-  <div class="jh-title">🦁 More Multiplication</div>
-  <div class="jh-chip">Chapter 10</div>
-</div>
+<div class="hdr"><div class="hdr-in">
+  <div class="ch-n">Chapter 10</div>
+  <div class="ch-t">More About Multiplication</div>
+  <div class="tabs">
+    <div class="tab on" onclick="sw('learn')">Learn</div>
+    <div class="tab" onclick="sw('practice')">Practice</div>
+  </div>
+</div></div>
 <div class="page">
 
-  <div class="jcard lime">
-    <div class="jc-title">🦘 Skip count to multiply!</div>
-    <div class="hint">Choose your skip number. Tap the bubbles IN ORDER — jump by that number each time! Say each number out loud as you tap.</div>
-    <div class="skip-ctrl">
-      <span class="sc-lbl">Skip by:</span>
-      <button class="sbtn" onclick="changeSkip(-1)">−</button>
-      <span class="sval" id="skipVal">3</span>
-      <button class="sbtn" onclick="changeSkip(1)">+</button>
-      <button class="reset-sm" onclick="resetSkip()">Reset ↻</button>
+<div class="pnl on" id="p-learn">
+  <div class="card"><div class="cb"></div>
+    <div class="ct">Multiplication means equal groups</div>
+    <div class="cs">Adjust the groups and group size. The objects ARE the multiplication.</div>
+    <div class="cr">
+      <div class="cg"><span class="cl" style="color:var(--ac)">Groups</span><button class="sb" style="background:var(--ac)" onclick="chG('g',-1)">−</button><span class="sv" style="color:var(--ac)" id="gv">3</span><button class="sb" style="background:var(--ac)" onclick="chG('g',1)">+</button></div>
+      <div class="cg"><span class="cl" style="color:var(--ac)">Each</span><button class="sb" style="background:var(--ac)" onclick="chG('e',-1)">−</button><span class="sv" style="color:var(--ac)" id="ev">4</span><button class="sb" style="background:var(--ac)" onclick="chG('e',1)">+</button></div>
     </div>
-    <div class="skip-prompt" id="skipPrompt">Tap the bubble showing <strong>3</strong> to start!</div>
-    <div class="track" id="skipTrack"></div>
-    <div class="skip-disp">
-      <div class="skip-chain" id="skipChain"></div>
-      <div class="skip-big" id="skipBig">0</div>
-      <div class="skip-fact" id="skipFact"></div>
+    <div id="grpD" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px"></div>
+    <div style="background:rgba(0,0,0,.02);border-radius:14px;padding:14px;border:1.5px solid rgba(0,0,0,.06);text-align:center">
+      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px" id="gLbl">3 groups of 4</div>
+      <div class="big" style="font-size:48px;color:var(--ac)" id="gTot">12</div>
+      <div style="font-size:15px;font-weight:700;color:var(--ink2);margin-top:4px" id="gFact">3 × 4 = 12</div>
     </div>
   </div>
-
-  <div class="jcard orange">
-    <div class="jc-title">📖 Solve the story problem!</div>
-    <div class="hint">Read carefully. Find the two numbers to multiply. Type your answer!</div>
-    <div class="wp-box">
-      <div class="wp-text" id="wpText">Loading…</div>
-      <div class="wp-scene" id="wpScene"></div>
+  <div class="card"><div class="cb"></div>
+    <div class="ct">Jump along the number line</div>
+    <div class="cs">Choose jump size and number of jumps. Watch the hops!</div>
+    <div class="cr">
+      <div class="cg"><span class="cl" style="color:var(--ac)">Jump</span><button class="sb" style="background:var(--ac)" onclick="chH('s',-1)">−</button><span class="sv" style="color:var(--ac)" id="hsv">3</span><button class="sb" style="background:var(--ac)" onclick="chH('s',1)">+</button></div>
+      <div class="cg"><span class="cl" style="color:var(--ac)">Jumps</span><button class="sb" style="background:var(--ac)" onclick="chH('j',-1)">−</button><span class="sv" style="color:var(--ac)" id="hjv">4</span><button class="sb" style="background:var(--ac)" onclick="chH('j',1)">+</button></div>
     </div>
-    <div class="type-row">
-      <span class="eq-lbl" id="wpEqLbl"></span>
-      <input type="number" class="type-inp" id="wpInp" min="0" max="100" placeholder="?">
-      <button class="check-btn" onclick="checkWP()">Check ✓</button>
+    <div id="nlArea" style="overflow-x:auto;padding-bottom:4px;margin-bottom:14px"></div>
+    <div style="background:rgba(0,0,0,.02);border-radius:14px;padding:14px;border:1.5px solid rgba(0,0,0,.06);text-align:center">
+      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px" id="hLbl">4 jumps of 3</div>
+      <div class="big" style="font-size:48px;color:var(--ac)" id="hTot">12</div>
+      <div style="font-size:15px;font-weight:700;color:var(--ink2);margin-top:4px" id="hFact">4 × 3 = 12</div>
     </div>
-    <div class="wp-fb" id="wpFb"></div>
-    <button class="next-btn" onclick="newWP()">New story ➡️</button>
   </div>
-
-  <div class="jcard sun">
-    <div class="jc-title">🔢 Times table explorer!</div>
-    <div class="hint">Tap any number in the table. It lights up the row and column — see the fact appear at the bottom! Spot the patterns!</div>
-    <div class="tt-grid" id="ttGrid"></div>
-    <div class="tt-fact" id="ttFact">Tap any number ↑</div>
+</div>
+<div class="pnl" id="p-practice">
+  <div class="card"><div class="cb"></div>
+    <div class="ct">Solve the story</div>
+    <div class="cs">Read the problem, find the two numbers to multiply, pick the answer.</div>
+    <div style="background:rgba(0,0,0,.02);border-radius:14px;padding:14px;border:1.5px solid rgba(0,0,0,.06);margin-bottom:14px">
+      <div style="font-size:14px;font-weight:600;line-height:1.7;margin-bottom:6px" id="wpT">Loading…</div>
+      <div style="font-size:24px;min-height:28px" id="wpS"></div>
+      <div style="font-size:15px;font-weight:800;color:var(--ac)" id="wpE"></div>
+    </div>
+    <div class="opts" id="wpO"></div><div class="fb" id="wpF"></div>
+    <button class="nbtn" onclick="nwWP()">Next →</button>
   </div>
-
+</div>
 </div>
 <script>
-/* Skip counting */
-const MAX=36;let skipBy=3,skipCur=0,skipCount=0;
-function buildTrack(){
-  const t=document.getElementById('skipTrack');t.innerHTML='';
-  for(let i=0;i<=MAX;i++){
-    const b=document.createElement('div');b.className='bub';b.textContent=i;b.dataset.n=i;b.onclick=()=>tapBub(i);
-    if(i===0){b.style.cssText='background:#E0E0E0;border-color:#BBB;cursor:default;color:#999';}
-    t.appendChild(b);
-  }
-  updateTrack();
-}
-function tapBub(n){
-  const expected=skipCur+skipBy;
-  if(n===expected&&n<=MAX){skipCur=n;skipCount++;updateTrack();}
-  else if(n!==skipCur&&n!==0){const b=document.querySelector(`.bub[data-n="${n}"]`);if(b){b.classList.add('wrong-f');setTimeout(()=>b.classList.remove('wrong-f'),400);}}
-}
-function updateTrack(){
-  document.querySelectorAll('.bub').forEach(b=>{
-    const n=parseInt(b.dataset.n);b.className='bub';
-    if(n===0){b.style.cssText='background:#E0E0E0;border-color:#BBB;cursor:default;color:#999';return;}
-    if(n===skipCur&&n>0)b.classList.add('lit');
-    else if(n<skipCur&&n%skipBy===0)b.classList.add('done');
-    else if(n===skipCur+skipBy)b.classList.add('next');
-  });
-  document.getElementById('skipBig').textContent=skipCur;
-  const chain=[];for(let v=skipBy;v<=skipCur;v+=skipBy)chain.push(v);
-  document.getElementById('skipChain').textContent=chain.length?chain.join(' → '):'';
-  if(skipCur>0)document.getElementById('skipFact').textContent=skipCount+' × '+skipBy+' = '+skipCur;
-  else document.getElementById('skipFact').textContent='';
-  const next=skipCur+skipBy;
-  if(next<=MAX)document.getElementById('skipPrompt').innerHTML='Tap the bubble showing <strong>'+next+'</strong>!';
-  else document.getElementById('skipPrompt').textContent='🎉 You counted all the way to '+MAX+'! Amazing!';
-}
-function changeSkip(d){skipBy=Math.max(2,Math.min(10,skipBy+d));document.getElementById('skipVal').textContent=skipBy;resetSkip();}
-function resetSkip(){skipCur=0;skipCount=0;buildTrack();}
-buildTrack();
+function sw(n){document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.textContent.toLowerCase()===n)});document.querySelectorAll('.pnl').forEach(function(p){var a=p.id==='p-'+n;p.classList.toggle('on',a);p.style.display=a?'flex':'none'})}
+document.getElementById('p-practice').style.display='none';
+function pool4(ans,lo,hi){var s=new Set([ans]);var i=0;while(s.size<4&&i<50){i++;var w=ans+Math.round(Math.random()*8-4);if(w>=lo&&w<=hi&&w!==ans)s.add(w)}return[...s].sort(function(){return Math.random()-.5})}
+function mkOpts(cid,items,correct,fid){var c=document.getElementById(cid);c.innerHTML='';items.forEach(function(n){var b=document.createElement('button');b.className='opt';b.textContent=n;b.onclick=function(){c.querySelectorAll('.opt').forEach(function(x){x.onclick=null});var fb=document.getElementById(fid);if(String(n)===String(correct)){b.classList.add('ok');fb.textContent='🎉 Correct!';fb.style.color='var(--ok)'}else{b.classList.add('no');fb.textContent='The answer is '+correct+'.';fb.style.color='var(--no)';c.querySelectorAll('.opt').forEach(function(x){if(String(x.textContent)===String(correct))x.classList.add('ok')})}};c.appendChild(b)})}
 
+var gG=3,gE=4;var GEM=['🍎','⭐','🐶','🌸','🎈','🍕','🦋','🏀'];
+function chG(d,v){if(d==='g')gG=Math.max(1,Math.min(9,gG+v));else gE=Math.max(1,Math.min(9,gE+v));document.getElementById('gv').textContent=gG;document.getElementById('ev').textContent=gE;rndrG()}
+function rndrG(){var em=GEM[(gG*gE)%GEM.length];var el=document.getElementById('grpD');el.innerHTML='';
+for(var g=0;g<gG;g++){var box=document.createElement('div');box.style.cssText='background:rgba(0,0,0,.02);border:1.5px solid rgba(0,0,0,.06);border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:4px;min-width:56px;align-content:flex-start';
+for(var e=0;e<gE;e++){var s=document.createElement('span');s.style.cssText='font-size:20px;line-height:1';s.textContent=em;box.appendChild(s)}
+var lb=document.createElement('div');lb.style.cssText='width:100%;text-align:center;font-size:9px;font-weight:800;color:var(--ink2);margin-top:4px';lb.textContent='Group '+(g+1);box.appendChild(lb);el.appendChild(box)}
+var t=gG*gE;document.getElementById('gLbl').textContent=gG+' groups of '+gE;document.getElementById('gTot').textContent=t;document.getElementById('gFact').textContent=gG+' × '+gE+' = '+t}
+rndrG();
+/* Number line as SVG */
+var hS=3,hJ=4;
+function chH(d,v){if(d==='s')hS=Math.max(1,Math.min(10,hS+v));else hJ=Math.max(1,Math.min(9,hJ+v));document.getElementById('hsv').textContent=hS;document.getElementById('hjv').textContent=hJ;rndrNL()}
+function rndrNL(){var mx=hS*hJ;var cmPx=Math.max(16,Math.min(30,500/mx));var pad=16;var W=pad*2+mx*cmPx+20;var H=80;var lnY=58;
+var svg='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">';
+svg+='<line x1="'+pad+'" y1="'+lnY+'" x2="'+(W-pad)+'" y2="'+lnY+'" stroke="#D1D5DB" stroke-width="2"/>';
+for(var i=0;i<=mx;i++){var x=pad+i*cmPx;var isL=i%hS===0;svg+='<line x1="'+x+'" y1="'+lnY+'" x2="'+x+'" y2="'+(lnY+(isL?8:4))+'" stroke="'+(isL?'#B45309':'#D1D5DB')+'" stroke-width="'+(isL?2:1)+'"/>';if(isL)svg+='<text x="'+x+'" y="'+(lnY+18)+'" text-anchor="middle" fill="#92400E" font-size="10" font-weight="700" font-family="Poppins,sans-serif">'+i+'</text>'}
+var AC=['#7C3AED','#D97706','#16A34A','#DC2626','#2563EB','#DB2777','#0891B2','#65A30D','#EA580C'];
+for(var j=0;j<hJ;j++){var x1=pad+j*hS*cmPx;var x2=pad+(j+1)*hS*cmPx;var mx2=(x1+x2)/2;var aH=Math.min(32,hS*cmPx*0.5);var cl=AC[j%AC.length];
+svg+='<path d="M'+x1+','+lnY+' Q'+mx2+','+(lnY-aH)+' '+x2+','+lnY+'" fill="none" stroke="'+cl+'" stroke-width="2.5"/>';
+svg+='<circle cx="'+x2+'" cy="'+lnY+'" r="4" fill="'+cl+'"/>';
+svg+='<text x="'+mx2+'" y="'+(lnY-aH-4)+'" text-anchor="middle" fill="'+cl+'" font-size="9" font-weight="700" font-family="Poppins,sans-serif">+'+hS+'</text>'}
+svg+='<circle cx="'+pad+'" cy="'+lnY+'" r="4" fill="var(--ink)"/>';
+svg+='</svg>';document.getElementById('nlArea').innerHTML=svg;
+var t=hS*hJ;document.getElementById('hLbl').textContent=hJ+' jump'+(hJ>1?'s':'')+' of '+hS;document.getElementById('hTot').textContent=t;document.getElementById('hFact').textContent=hJ+' × '+hS+' = '+t}
+rndrNL();
 /* Word problems */
-const WPS=[
-  (a,b)=>({t:`There are ${a} trees in the jungle. Each tree has ${b} monkeys. How many monkeys?`,s:'🌴'.repeat(Math.min(a,5))+'  🐒×'+b,eq:`${a} × ${b} = `,ans:a*b}),
-  (a,b)=>({t:`${a} elephants each carry ${b} bananas. How many bananas altogether?`,s:'🐘'.repeat(Math.min(a,5))+'  🍌×'+b,eq:`${a} × ${b} = `,ans:a*b}),
-  (a,b)=>({t:`There are ${a} nests. Each nest has ${b} eggs. How many eggs in all?`,s:'🪺'.repeat(Math.min(a,5))+'  🥚×'+b,eq:`${a} × ${b} = `,ans:a*b}),
-  (a,b)=>({t:`${a} lions each have ${b} cubs. How many cubs altogether?`,s:'🦁'.repeat(Math.min(a,5))+'  cubs: '+b+' each',eq:`${a} × ${b} = `,ans:a*b}),
-  (a,b)=>({t:`${a} children each pick ${b} flowers. How many flowers total?`,s:'🧒'.repeat(Math.min(a,5))+'  🌸×'+b,eq:`${a} × ${b} = `,ans:a*b}),
-];
-let wpAns=0;
-function newWP(){
-  const tmpl=WPS[Math.floor(Math.random()*WPS.length)];
-  const a=Math.floor(Math.random()*4)+2,b=Math.floor(Math.random()*5)+2;
-  const wp=tmpl(a,b);wpAns=wp.ans;
-  document.getElementById('wpText').textContent=wp.t;
-  document.getElementById('wpScene').textContent=wp.s;
-  document.getElementById('wpEqLbl').textContent=wp.eq;
-  document.getElementById('wpInp').value='';document.getElementById('wpFb').textContent='';
-}
-function checkWP(){
-  const v=parseInt(document.getElementById('wpInp').value);const fb=document.getElementById('wpFb');
-  if(v===wpAns){fb.textContent='🎉 Correct! The answer is '+wpAns+'! ⭐';fb.style.color='var(--leaf)';}
-  else if(isNaN(v)){fb.textContent='Type a number!';fb.style.color='var(--orange)';}
-  else{fb.textContent='Not quite — find the two numbers and multiply! Answer: '+wpAns;fb.style.color='var(--orange2)';}
-}
-newWP();
+var WPS=[function(a,b){return{t:'There are '+a+' bags with '+b+' apples each. How many apples?',s:'🛍️'.repeat(Math.min(a,5))+' 🍎×'+b,e:a+' × '+b+' = ?',ans:a*b}},function(a,b){return{t:a+' children each have '+b+' crayons. How many crayons?',s:'🧒'.repeat(Math.min(a,5))+' 🖍️×'+b,e:a+' × '+b+' = ?',ans:a*b}},function(a,b){return{t:'There are '+a+' nests with '+b+' eggs each. How many eggs?',s:'🪺'.repeat(Math.min(a,5))+' 🥚×'+b,e:a+' × '+b+' = ?',ans:a*b}},function(a,b){return{t:a+' plates each have '+b+' cookies. How many cookies?',s:'🍽️'.repeat(Math.min(a,5))+' 🍪×'+b,e:a+' × '+b+' = ?',ans:a*b}}];
+var wpa=0;
+function nwWP(){var fn=WPS[Math.floor(Math.random()*WPS.length)];var a=Math.floor(Math.random()*4)+2,b=Math.floor(Math.random()*5)+2;var wp=fn(a,b);wpa=wp.ans;
+document.getElementById('wpT').textContent=wp.t;document.getElementById('wpS').textContent=wp.s;document.getElementById('wpE').textContent=wp.e;document.getElementById('wpF').textContent='';
+mkOpts('wpO',pool4(wpa,2,100),wpa,'wpF')}
+nwWP();
 
-/* Times table */
-function buildTT(){
-  const grid=document.getElementById('ttGrid');grid.innerHTML='';
-  for(let c=0;c<=10;c++){const d=document.createElement('div');d.className='ttc hdr';d.textContent=c===0?'×':c;grid.appendChild(d);}
-  for(let r=1;r<=10;r++){
-    for(let c=0;c<=10;c++){
-      const d=document.createElement('div');
-      if(c===0){d.className='ttc hdr';d.textContent=r;}
-      else{d.className='ttc body';d.textContent=r*c;d.dataset.r=r;d.dataset.c=c;
-        d.onclick=()=>{
-          document.querySelectorAll('.ttc.body').forEach(x=>x.classList.remove('sel','hl'));
-          document.querySelectorAll(`.ttc.body[data-r="${r}"]`).forEach(x=>x.classList.add('hl'));
-          document.querySelectorAll(`.ttc.body[data-c="${c}"]`).forEach(x=>x.classList.add('hl'));
-          d.classList.remove('hl');d.classList.add('sel');
-          document.getElementById('ttFact').textContent=`${r} × ${c} = ${r*c}`;
-        };}
-      grid.appendChild(d);
-    }
-  }
-}
-buildTT();
 </script>
 </body>
 </html>
