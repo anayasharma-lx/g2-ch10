@@ -80,46 +80,46 @@ canvas{display:block;border-radius:10px}
 <div class="pnl on" id="p-learn">
   <div class="card"><div class="cb"></div>
     <div class="ct">Multiplication means equal groups</div>
-    <div class="cs">Adjust the groups and group size. The objects ARE the multiplication.</div>
+    <div class="cs">Switch between two ways to see the same multiplication.</div>
+
+    <!-- TOGGLE -->
+    <div style="display:flex;background:rgba(0,0,0,.05);border-radius:12px;padding:4px;gap:4px;margin-bottom:16px;max-width:280px">
+      <button id="modeGroups" onclick="setMode('groups')" style="flex:1;padding:9px 0;font-family:Grandstander,cursive;font-size:13px;font-weight:800;border:none;border-radius:9px;cursor:pointer;background:var(--ac);color:#fff;transition:.2s">👫 Groups</button>
+      <button id="modeNL" onclick="setMode('nl')" style="flex:1;padding:9px 0;font-family:Grandstander,cursive;font-size:13px;font-weight:800;border:none;border-radius:9px;cursor:pointer;background:transparent;color:var(--ink2);transition:.2s">〰️ Number Line</button>
+    </div>
+
+    <!-- CONTROLS (shared) -->
     <div class="cr">
-      <div class="cg"><span class="cl" style="color:var(--ac)">Groups</span><button class="sb" style="background:var(--ac)" onclick="chG('g',-1)">−</button><span class="sv" style="color:var(--ac)" id="gv">3</span><button class="sb" style="background:var(--ac)" onclick="chG('g',1)">+</button></div>
-      <div class="cg"><span class="cl" style="color:var(--ac)">Each</span><button class="sb" style="background:var(--ac)" onclick="chG('e',-1)">−</button><span class="sv" style="color:var(--ac)" id="ev">4</span><button class="sb" style="background:var(--ac)" onclick="chG('e',1)">+</button></div>
+      <div class="cg"><span class="cl" style="color:var(--ac)" id="lblA">Groups</span><button class="sb" style="background:var(--ac)" onclick="chM('a',-1)">−</button><span class="sv" style="color:var(--ac)" id="mA">3</span><button class="sb" style="background:var(--ac)" onclick="chM('a',1)">+</button></div>
+      <div class="cg"><span class="cl" style="color:var(--ac)" id="lblB">Each</span><button class="sb" style="background:var(--ac)" onclick="chM('b',-1)">−</button><span class="sv" style="color:var(--ac)" id="mB">4</span><button class="sb" style="background:var(--ac)" onclick="chM('b',1)">+</button></div>
     </div>
-    <div id="grpD" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px"></div>
+
+    <!-- GROUPS VIEW -->
+    <div id="viewGroups" style="margin-bottom:14px"></div>
+
+    <!-- NUMBER LINE VIEW (hidden initially) -->
+    <div id="viewNL" style="display:none;overflow-x:auto;padding-bottom:4px;margin-bottom:14px"></div>
+
+    <!-- RESULT BOX (shared) -->
     <div style="background:rgba(0,0,0,.02);border-radius:14px;padding:14px;border:1.5px solid rgba(0,0,0,.06);text-align:center">
-      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px" id="gLbl">3 groups of 4</div>
-      <div class="big" style="font-size:48px;color:var(--ac)" id="gTot">12</div>
-      <div style="font-size:15px;font-weight:700;color:var(--ink2);margin-top:4px" id="gFact">3 × 4 = 12</div>
-    </div>
-  </div>
-  <div class="card"><div class="cb"></div>
-    <div class="ct">Jump along the number line</div>
-    <div class="cs">Choose jump size and number of jumps. Watch the hops!</div>
-    <div class="cr">
-      <div class="cg"><span class="cl" style="color:var(--ac)">Jump</span><button class="sb" style="background:var(--ac)" onclick="chH('s',-1)">−</button><span class="sv" style="color:var(--ac)" id="hsv">3</span><button class="sb" style="background:var(--ac)" onclick="chH('s',1)">+</button></div>
-      <div class="cg"><span class="cl" style="color:var(--ac)">Jumps</span><button class="sb" style="background:var(--ac)" onclick="chH('j',-1)">−</button><span class="sv" style="color:var(--ac)" id="hjv">4</span><button class="sb" style="background:var(--ac)" onclick="chH('j',1)">+</button></div>
-    </div>
-    <div id="nlArea" style="overflow-x:auto;padding-bottom:4px;margin-bottom:14px"></div>
-    <div style="background:rgba(0,0,0,.02);border-radius:14px;padding:14px;border:1.5px solid rgba(0,0,0,.06);text-align:center">
-      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px" id="hLbl">4 jumps of 3</div>
-      <div class="big" style="font-size:48px;color:var(--ac)" id="hTot">12</div>
-      <div style="font-size:15px;font-weight:700;color:var(--ink2);margin-top:4px" id="hFact">4 × 3 = 12</div>
+      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px" id="mLbl">3 groups of 4</div>
+      <div class="big" style="font-size:52px;color:var(--ac)" id="mTot">12</div>
+      <div style="font-size:15px;font-weight:700;color:var(--ink2);margin-top:4px" id="mFact">3 × 4 = 12</div>
     </div>
   </div>
 </div>
 <div class="pnl" id="p-practice">
   <div class="card"><div class="cb"></div>
-    <div class="ct">Solve the story</div>
-    <div class="cs">Read the problem, find the two numbers to multiply, pick the answer.</div>
-    <div style="background:rgba(0,0,0,.02);border-radius:14px;padding:14px;border:1.5px solid rgba(0,0,0,.06);margin-bottom:14px">
-      <div style="font-size:14px;font-weight:600;line-height:1.7;margin-bottom:6px" id="wpT">Loading…</div>
-      <div style="font-size:24px;min-height:28px" id="wpS"></div>
-      <div style="font-size:15px;font-weight:800;color:var(--ac)" id="wpE"></div>
-    </div>
-    <div class="opts" id="wpO"></div><div class="fb" id="wpF"></div>
+    <div class="ct">Solve the multiplication</div>
+    <div class="cs">Look at the groups. Count them, then count each group. Pick the total.</div>
+    <div id="wpScene" style="display:flex;flex-wrap:wrap;gap:8px;background:rgba(0,0,0,.02);border-radius:14px;padding:14px;border:1.5px solid rgba(0,0,0,.06);margin-bottom:12px;align-items:flex-start"></div>
+    <div style="font-family:Grandstander,cursive;font-size:16px;font-weight:800;color:var(--ink);margin-bottom:12px" id="wpEq"></div>
+    <div class="opts" id="wpO"></div>
+    <div class="fb" id="wpF"></div>
     <button class="nbtn" onclick="nwWP()">Next →</button>
   </div>
 </div>
+
 </div>
 <script>
 function sw(n){document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.textContent.toLowerCase()===n)});document.querySelectorAll('.pnl').forEach(function(p){var a=p.id==='p-'+n;p.classList.toggle('on',a);p.style.display=a?'flex':'none'})}
@@ -127,36 +127,93 @@ document.getElementById('p-practice').style.display='none';
 function pool4(ans,lo,hi){var s=new Set([ans]);var i=0;while(s.size<4&&i<50){i++;var w=ans+Math.round(Math.random()*8-4);if(w>=lo&&w<=hi&&w!==ans)s.add(w)}return[...s].sort(function(){return Math.random()-.5})}
 function mkOpts(cid,items,correct,fid){var c=document.getElementById(cid);c.innerHTML='';items.forEach(function(n){var b=document.createElement('button');b.className='opt';b.textContent=n;b.onclick=function(){c.querySelectorAll('.opt').forEach(function(x){x.onclick=null});var fb=document.getElementById(fid);if(String(n)===String(correct)){b.classList.add('ok');fb.textContent='🎉 Correct!';fb.style.color='var(--ok)'}else{b.classList.add('no');fb.textContent='The answer is '+correct+'.';fb.style.color='var(--no)';c.querySelectorAll('.opt').forEach(function(x){if(String(x.textContent)===String(correct))x.classList.add('ok')})}};c.appendChild(b)})}
 
-var gG=3,gE=4;var GEM=['🍎','⭐','🐶','🌸','🎈','🍕','🦋','🏀'];
-function chG(d,v){if(d==='g')gG=Math.max(1,Math.min(9,gG+v));else gE=Math.max(1,Math.min(9,gE+v));document.getElementById('gv').textContent=gG;document.getElementById('ev').textContent=gE;rndrG()}
-function rndrG(){var em=GEM[(gG*gE)%GEM.length];var el=document.getElementById('grpD');el.innerHTML='';
-for(var g=0;g<gG;g++){var box=document.createElement('div');box.style.cssText='background:rgba(0,0,0,.02);border:1.5px solid rgba(0,0,0,.06);border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:4px;min-width:56px;align-content:flex-start';
-for(var e=0;e<gE;e++){var s=document.createElement('span');s.style.cssText='font-size:20px;line-height:1';s.textContent=em;box.appendChild(s)}
-var lb=document.createElement('div');lb.style.cssText='width:100%;text-align:center;font-size:9px;font-weight:800;color:var(--ink2);margin-top:4px';lb.textContent='Group '+(g+1);box.appendChild(lb);el.appendChild(box)}
-var t=gG*gE;document.getElementById('gLbl').textContent=gG+' groups of '+gE;document.getElementById('gTot').textContent=t;document.getElementById('gFact').textContent=gG+' × '+gE+' = '+t}
-rndrG();
-/* Number line as SVG */
-var hS=3,hJ=4;
-function chH(d,v){if(d==='s')hS=Math.max(1,Math.min(10,hS+v));else hJ=Math.max(1,Math.min(9,hJ+v));document.getElementById('hsv').textContent=hS;document.getElementById('hjv').textContent=hJ;rndrNL()}
-function rndrNL(){var mx=hS*hJ;var cmPx=Math.max(16,Math.min(30,500/mx));var pad=16;var W=pad*2+mx*cmPx+20;var H=80;var lnY=58;
-var svg='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">';
-svg+='<line x1="'+pad+'" y1="'+lnY+'" x2="'+(W-pad)+'" y2="'+lnY+'" stroke="#D1D5DB" stroke-width="2"/>';
-for(var i=0;i<=mx;i++){var x=pad+i*cmPx;var isL=i%hS===0;svg+='<line x1="'+x+'" y1="'+lnY+'" x2="'+x+'" y2="'+(lnY+(isL?8:4))+'" stroke="'+(isL?'#B45309':'#D1D5DB')+'" stroke-width="'+(isL?2:1)+'"/>';if(isL)svg+='<text x="'+x+'" y="'+(lnY+18)+'" text-anchor="middle" fill="#92400E" font-size="10" font-weight="700" font-family="Poppins,sans-serif">'+i+'</text>'}
-var AC=['#7C3AED','#D97706','#16A34A','#DC2626','#2563EB','#DB2777','#0891B2','#65A30D','#EA580C'];
-for(var j=0;j<hJ;j++){var x1=pad+j*hS*cmPx;var x2=pad+(j+1)*hS*cmPx;var mx2=(x1+x2)/2;var aH=Math.min(32,hS*cmPx*0.5);var cl=AC[j%AC.length];
-svg+='<path d="M'+x1+','+lnY+' Q'+mx2+','+(lnY-aH)+' '+x2+','+lnY+'" fill="none" stroke="'+cl+'" stroke-width="2.5"/>';
-svg+='<circle cx="'+x2+'" cy="'+lnY+'" r="4" fill="'+cl+'"/>';
-svg+='<text x="'+mx2+'" y="'+(lnY-aH-4)+'" text-anchor="middle" fill="'+cl+'" font-size="9" font-weight="700" font-family="Poppins,sans-serif">+'+hS+'</text>'}
-svg+='<circle cx="'+pad+'" cy="'+lnY+'" r="4" fill="var(--ink)"/>';
-svg+='</svg>';document.getElementById('nlArea').innerHTML=svg;
-var t=hS*hJ;document.getElementById('hLbl').textContent=hJ+' jump'+(hJ>1?'s':'')+' of '+hS;document.getElementById('hTot').textContent=t;document.getElementById('hFact').textContent=hJ+' × '+hS+' = '+t}
-rndrNL();
-/* Word problems */
-var WPS=[function(a,b){return{t:'There are '+a+' bags with '+b+' apples each. How many apples?',s:'🛍️'.repeat(Math.min(a,5))+' 🍎×'+b,e:a+' × '+b+' = ?',ans:a*b}},function(a,b){return{t:a+' children each have '+b+' crayons. How many crayons?',s:'🧒'.repeat(Math.min(a,5))+' 🖍️×'+b,e:a+' × '+b+' = ?',ans:a*b}},function(a,b){return{t:'There are '+a+' nests with '+b+' eggs each. How many eggs?',s:'🪺'.repeat(Math.min(a,5))+' 🥚×'+b,e:a+' × '+b+' = ?',ans:a*b}},function(a,b){return{t:a+' plates each have '+b+' cookies. How many cookies?',s:'🍽️'.repeat(Math.min(a,5))+' 🍪×'+b,e:a+' × '+b+' = ?',ans:a*b}}];
+var mA=3,mB=4,curMode='groups';
+var GEM=['🍎','⭐','🐶','🌸','🎈','🍕','🦋','🏀','🍊','🐱'];
+
+function setMode(m){
+  curMode=m;
+  document.getElementById('modeGroups').style.cssText='flex:1;padding:9px 0;font-family:Grandstander,cursive;font-size:13px;font-weight:800;border:none;border-radius:9px;cursor:pointer;transition:.2s;background:'+(m==='groups'?'var(--ac)':'transparent')+';color:'+(m==='groups'?'#fff':'var(--ink2)');
+  document.getElementById('modeNL').style.cssText='flex:1;padding:9px 0;font-family:Grandstander,cursive;font-size:13px;font-weight:800;border:none;border-radius:9px;cursor:pointer;transition:.2s;background:'+(m==='nl'?'var(--ac)':'transparent')+';color:'+(m==='nl'?'#fff':'var(--ink2)');
+  document.getElementById('lblA').textContent=m==='groups'?'Groups':'Jump size';
+  document.getElementById('lblB').textContent=m==='groups'?'Each':'Jumps';
+  rndrM();
+}
+
+function chM(d,v){
+  if(d==='a')mA=Math.max(1,Math.min(9,mA+v));
+  else mB=Math.max(1,Math.min(9,mB+v));
+  document.getElementById('mA').textContent=mA;
+  document.getElementById('mB').textContent=mB;
+  rndrM();
+}
+
+function rndrM(){
+  var t=mA*mB;
+  if(curMode==='groups'){
+    document.getElementById('viewGroups').style.display='';
+    document.getElementById('viewNL').style.display='none';
+    var em=GEM[(mA*mB)%GEM.length];
+    var el=document.getElementById('viewGroups');el.innerHTML='';
+    var wrap=document.createElement('div');wrap.style.cssText='display:flex;flex-wrap:wrap;gap:8px';
+    for(var g=0;g<mA;g++){
+      var box=document.createElement('div');
+      box.style.cssText='background:rgba(0,0,0,.02);border:1.5px solid rgba(0,0,0,.08);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:3px;min-width:52px;align-content:flex-start;position:relative';
+      for(var e=0;e<mB;e++){var s=document.createElement('span');s.style.cssText='font-size:20px;line-height:1';s.textContent=em;box.appendChild(s)}
+      var lb=document.createElement('div');lb.style.cssText='width:100%;text-align:center;font-size:9px;font-weight:800;color:var(--ink2);margin-top:4px';lb.textContent=mB;box.appendChild(lb);
+      wrap.appendChild(box);
+    }
+    el.appendChild(wrap);
+    document.getElementById('mLbl').textContent=mA+' groups of '+mB;
+  } else {
+    document.getElementById('viewGroups').style.display='none';
+    document.getElementById('viewNL').style.display='';
+    // jump size = mA, jumps = mB
+    var js=mA,jn=mB,mx=js*jn;
+    var cmPx=Math.max(22,Math.min(40,Math.floor(320/mx)));
+    var pad=14;var W=pad*2+mx*cmPx;var H=72;var lnY=52;
+    var svg='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="min-width:'+W+'px">';
+    svg+='<line x1="'+pad+'" y1="'+lnY+'" x2="'+(pad+mx*cmPx)+'" y2="'+lnY+'" stroke="#D1D5DB" stroke-width="2"/>';
+    for(var i=0;i<=mx;i++){var x=pad+i*cmPx;var big=i%js===0;
+      svg+='<line x1="'+x+'" y1="'+lnY+'" x2="'+x+'" y2="'+(lnY+(big?8:4))+'" stroke="'+(big?'#B45309':'#D1D5DB')+'" stroke-width="'+(big?2:1)+'"/>';
+      if(big)svg+='<text x="'+x+'" y="'+(lnY+18)+'" text-anchor="middle" fill="#92400E" font-size="10" font-weight="700" font-family="Poppins,sans-serif">'+i+'</text>'}
+    var ARC=['#7C3AED','#D97706','#16A34A','#DC2626','#2563EB','#DB2777','#0891B2','#EA580C'];
+    for(var j=0;j<jn;j++){
+      var x1=pad+j*js*cmPx;var x2=pad+(j+1)*js*cmPx;var mid=(x1+x2)/2;
+      var ah=Math.min(28,js*cmPx*0.45);var cl=ARC[j%ARC.length];
+      svg+='<path d="M'+x1+','+lnY+' Q'+mid+','+(lnY-ah)+' '+x2+','+lnY+'" fill="none" stroke="'+cl+'" stroke-width="2.5"/>';
+      svg+='<circle cx="'+x2+'" cy="'+lnY+'" r="4" fill="'+cl+'"/>';
+      svg+='<text x="'+mid+'" y="'+(lnY-ah-4)+'" text-anchor="middle" fill="'+cl+'" font-size="9" font-weight="700" font-family="Poppins,sans-serif">+'+js+'</text>';
+    }
+    svg+='<circle cx="'+pad+'" cy="'+lnY+'" r="4" fill="var(--ink)"/>';
+    svg+='</svg>';
+    document.getElementById('viewNL').innerHTML=svg;
+    document.getElementById('mLbl').textContent=jn+' jump'+(jn>1?'s':'')+' of '+js;
+  }
+  document.getElementById('mTot').textContent=t;
+  document.getElementById('mFact').textContent=mA+' × '+mB+' = '+t;
+}
+rndrM();
+
+/* Practice: visual groups quiz */
+var PEMS=['🍎','⭐','🌸','🎈','🍊','🍕','🐶','🦋'];
 var wpa=0;
-function nwWP(){var fn=WPS[Math.floor(Math.random()*WPS.length)];var a=Math.floor(Math.random()*4)+2,b=Math.floor(Math.random()*5)+2;var wp=fn(a,b);wpa=wp.ans;
-document.getElementById('wpT').textContent=wp.t;document.getElementById('wpS').textContent=wp.s;document.getElementById('wpE').textContent=wp.e;document.getElementById('wpF').textContent='';
-mkOpts('wpO',pool4(wpa,2,100),wpa,'wpF')}
+function nwWP(){
+  var a=Math.floor(Math.random()*5)+2;
+  var b=Math.floor(Math.random()*5)+2;
+  wpa=a*b;
+  var em=PEMS[Math.floor(Math.random()*PEMS.length)];
+  document.getElementById('wpF').textContent='';
+  document.getElementById('wpEq').textContent=a+' × '+b+' = ?';
+  var sc=document.getElementById('wpScene');sc.innerHTML='';
+  for(var g=0;g<a;g++){
+    var box=document.createElement('div');
+    box.style.cssText='background:#fff;border:1.5px solid rgba(0,0,0,.08);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:3px;min-width:52px;align-content:flex-start';
+    for(var i=0;i<b;i++){var s=document.createElement('span');s.style.cssText='font-size:22px;line-height:1';s.textContent=em;box.appendChild(s)}
+    var lb=document.createElement('div');lb.style.cssText='width:100%;text-align:center;font-size:9px;font-weight:800;color:var(--ink2);margin-top:3px';lb.textContent=b+' '+em;box.appendChild(lb);
+    sc.appendChild(box);
+  }
+  mkOpts('wpO',pool4(wpa,2,81),wpa,'wpF');
+}
 nwWP();
 
 </script>
