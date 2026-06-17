@@ -58,7 +58,8 @@ html,body{width:100%;min-height:100vh;font-family:'Poppins',sans-serif;backgroun
 
 <div class="pnl on" id="p-learn">
   <div class="card"><div class="cb"></div>
-    <div class="ct">Multiplication means equal groups</div>
+    <!-- CHANGED: removed "Multiplication means equal groups" as card title; use subtitle as title -->
+    <div class="ct">Two ways to see multiplication</div>
     <div class="cs">Switch between two ways to see the same multiplication.</div>
 
     <div style="display:flex;background:rgba(0,0,0,.05);border-radius:12px;padding:4px;gap:4px;margin-bottom:16px;max-width:280px">
@@ -67,6 +68,7 @@ html,body{width:100%;min-height:100vh;font-family:'Poppins',sans-serif;backgroun
     </div>
 
     <div class="cr">
+      <!-- CHANGED: max 10 each for 10×10 cap -->
       <div class="cg"><span class="cl" style="color:var(--ac)" id="lblA">Groups</span><button class="sb" style="background:var(--ac)" onclick="chM('a',-1)">−</button><span class="sv" style="color:var(--ac)" id="mA">3</span><button class="sb" style="background:var(--ac)" onclick="chM('a',1)">+</button></div>
       <div class="cg"><span class="cl" style="color:var(--ac)" id="lblB">Each</span><button class="sb" style="background:var(--ac)" onclick="chM('b',-1)">−</button><span class="sv" style="color:var(--ac)" id="mB">4</span><button class="sb" style="background:var(--ac)" onclick="chM('b',1)">+</button></div>
     </div>
@@ -127,7 +129,7 @@ function mkOpts(items,correct){
   });
 }
 
-/* ── Learn tab ── */
+/* ── Learn tab — max 10 each ── */
 var mA=3,mB=4,curMode='groups';
 var GEM=['🍎','⭐','🐶','🌸','🎈','🍕','🦋','🏀','🍊','🐱'];
 
@@ -142,8 +144,9 @@ function setMode(m){
 }
 
 function chM(d,v){
-  if(d==='a')mA=Math.max(1,Math.min(9,mA+v));
-  else mB=Math.max(1,Math.min(9,mB+v));
+  /* CHANGED: max 10 for 10×10 cap */
+  if(d==='a')mA=Math.max(1,Math.min(10,mA+v));
+  else mB=Math.max(1,Math.min(10,mB+v));
   document.getElementById('mA').textContent=mA;
   document.getElementById('mB').textContent=mB;
   rndrM();
@@ -195,7 +198,7 @@ function rndrM(){
 }
 rndrM();
 
-/* ── Practice tab: word problems + calculations ── */
+/* CHANGED: practice word problems — removed money/₹ question; cap at 10×10 */
 var MUL_WORDS=[
   function(a,b){return{tag:'Word problem',q:'There are <b>'+a+'</b> baskets. Each basket has <b>'+b+'</b> mangoes. How many mangoes in total?'}},
   function(a,b){return{tag:'Word problem',q:'A classroom has <b>'+a+'</b> rows of desks. Each row has <b>'+b+'</b> desks. How many desks are there altogether?'}},
@@ -204,18 +207,18 @@ var MUL_WORDS=[
   function(a,b){return{tag:'Word problem',q:'A week has <b>7</b> days. How many days are there in <b>'+b+'</b> weeks?',override:7*b}},
   function(a,b){return{tag:'Word problem',q:'Each child plants <b>'+b+'</b> seeds. If <b>'+a+'</b> children plant seeds, how many seeds are planted in all?'}},
   function(a,b){return{tag:'Word problem',q:'A rickshaw can carry <b>'+b+'</b> passengers. How many passengers can <b>'+a+'</b> rickshaws carry?'}},
-  function(a,b){return{tag:'Word problem',q:'Priya earns ₹<b>'+b+'</b> per day. How much does she earn in <b>'+a+'</b> days?'}},
   function(a,b){return{tag:'Word problem',q:'A box holds <b>'+b+'</b> pencils. How many pencils are in <b>'+a+'</b> such boxes?'}},
   function(a,b){return{tag:'Calculation',q:'<span style="font-family:Grandstander,cursive;font-size:26px;font-weight:900">'+a+' × '+b+' = ?</span>'}},
 ];
 
 function nwWP(){
-  var a=rn(2,9),b=rn(2,9);
+  /* CHANGED: factors 1–10 each */
+  var a=rn(1,10),b=rn(1,10);
   var gen=MUL_WORDS[Math.floor(Math.random()*MUL_WORDS.length)];
   var q=gen(a,b);
   var ans=q.override!==undefined?q.override:a*b;
   document.getElementById('wpQ').innerHTML='<div class="qtag">'+q.tag+'</div><div>'+q.q+'</div>';
-  mkOpts(pool4(ans,2,81),ans);
+  mkOpts(pool4(ans,1,100),ans);
 }
 nwWP();
 </script>
